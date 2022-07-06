@@ -19,12 +19,12 @@
           <!-- 商品名称 -->
           <GoodsName :goods="item" style="margin-top: 40px"/>
           <!-- 销量组件 -->
-          <GoodsSales />
+          <GoodsSales :sale="item.sale"/>
           <!-- 数量选中组件 -->
           <ShopNumbox v-model="num" :max="item.inventory" label="数量" style="margin-top: 40px"/>
           <!-- 按钮组件 -->
-          <ShopButton @click="addToCart()" type="primary" style="margin-top: 40px; margin-left:40px">加入购物车</ShopButton>
-          <ShopButton @click="gotoModel()" type="primary" style="margin-left: 50px">查看3D模型</ShopButton>
+          <ShopButton @click="addToCart()" type="primary" style="margin-top: 50px;margin-left:10px">加入购物车</ShopButton>
+          <ShopButton @click="gotoModel()" type="primary" style="margin-left: 120px">查看3D模型</ShopButton>
         </div>
       </div>
       <!-- 商品推荐
@@ -58,7 +58,8 @@ export default {
         "price": 12,
         "description": "xxxxxxxxx",
         "url": require("@/assets/images/clothes/news_1.jpg"),
-        "inventory": 500
+        "inventory": 500,
+        "sale": 30
       },   // 当前要查看的Item对象
 
       // 推荐的商品列表

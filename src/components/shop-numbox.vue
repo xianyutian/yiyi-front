@@ -55,7 +55,7 @@ export default {
   .label {
     width: 60px;
     color: #999;
-    padding-left: 10px;
+    padding-left: 0px;
   }
   .numbox {
     width: 120px;

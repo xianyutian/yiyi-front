@@ -1,21 +1,19 @@
 <template>
-  <ul class="goods-sales">
-    <li>
-      <p>租赁人气</p>
-      <p>200+</p>
-      <p><i class="iconfont icon-task-filling"></i>租赁人气</p>
-    </li>
-    <li>
-      <p>收藏人气</p>
-      <p>600+</p>
-      <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
-    </li>
-  </ul>
+  <div class="goods-sales">
+      <p>租赁人气: </p>
+      <p class="sale">{{sale}}</p>
+      <!-- <p><i class="iconfont icon-task-filling"></i>租赁人气</p> -->
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'GoodsSales'
+  name: 'GoodsSales',
+  props: {
+    sale: {
+      default: 500
+    }
+  }
 }
 </script>
 
@@ -23,42 +21,17 @@ export default {
 .goods-sales {
   display: flex;
   width: 400px;
-  align-items: center;
-  text-align: center;
-  height: 140px;
-  li {
+  height: 65px;
     flex: 1;
     position: relative;
-    ~ li::after {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      height: 60px;
-      border-left: 1px solid #e4e4e4;
-      content: "";
-    }
+    
     p {
-      &:first-child {
-        color: #999;
-      }
-      &:nth-child(2) {
-        color: #CF4444;
-        margin-top: 10px;
-      }
-      &:last-child {
-        color: #666;
-        margin-top: 10px;
-        i {
-          color: #27BA9B;
-          font-size: 14px;
-          margin-right: 2px;
-        }
-        &:hover {
-          color: #27BA9B;
-          cursor: pointer;
-        }
-      }
+      font-size: 18px;
+      padding-top: 36px;
     }
-  }
+    .sale {
+        color: #CF4444;
+        padding-left: 30px;
+    }
 }
 </style>
