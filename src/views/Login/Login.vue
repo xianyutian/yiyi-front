@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import LoginHeader from '@/views/Login/Components/LoginHeader.vue'
-import LoginMain from '@/views/Login/Components/LoginMain.vue'
-import LoginFooter from '@/views/Login/Components/LoginFooter.vue'
+import LoginHeader from '@/views/Login/Components/LoginHeader'
+import LoginMain from '@/views/Login/Components/LoginMain'
+import LoginFooter from '@/views/Login/Components/LoginFooter'
 export default {
   name: 'MyLogin',
   components: {

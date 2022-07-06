@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const Home = () => import('@/views/Home/Home')
 const Login = () => import('@/views/Login/Login')
 const Main = () => import('@/views/Main/Main')
-const Register = () => import('@/views/Register/Register')
+const Register = () => import('@/views/Login/Register')
 const Item = () => import('@/views/Item/Item')
 const Cart = () => import('@/views/Cart/Cart')
 const Profile = () => import('@/views/Profile/Profile')
@@ -36,10 +36,6 @@ const routes = [
     component: Register
   },
   
-  {
-    path: '/register',
-    component: Register
-  },
 ]
 
 const router = createRouter({

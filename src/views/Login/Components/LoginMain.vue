@@ -8,32 +8,28 @@
         <div class="login-form">
           <div class="input">
             <i class="iconfont icon-jurassic_user"></i>
-            <input type="text" placeholder="请输入用户名">
+            <input type="text" placeholder="请输入用户名" v-model="username">
           </div>
           <div class="input">
             <i class="iconfont icon-jiesuo"></i>
-            <input type="password" placeholder="请输入密码">
+            <input type="password" placeholder="请输入密码" v-model="password">
           </div>
           <div class="agree">
-            <label class="xtx-checkbox">
+            <!-- <label class="xtx-checkbox">
               <input type="checkbox" />
               <i class="iconfont icon-yixuanze"></i>
               <i class="iconfont icon-weixuanze"></i>
-            </label>
-            <span>我已同意</span>
+            </label> -->
+            <el-checkbox v-model="isAgree"></el-checkbox>
+            <span style="padding-left:5px">我已同意</span>
             <a href="javascript:;">《隐私条款》</a>
             <span>和</span>
             <a href="javascript:;">《服务条款》</a>
           </div>
           <div class="button">
-            <a href="javascript:;" class="btn">登录</a>
-            <div class="other">
-              <router-link to="/home/forget">忘记密码?</router-link>
-              <a href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback">
-                <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt="">
-              </a>
-              <router-link to="/register">免费注册</router-link>
-            </div>
+            <a class="btn2" v-if="isLight" @click="login()" href="javascript:;">登陆</a>
+            <a class="btn" v-else>登录</a>
+            <a class="btn2" href="javascript:;" @click="gotoRegister()"> 免费注册 </a>
           </div>
         </div>
       </div>
@@ -43,21 +39,49 @@
 
 <script>
 export default {
-  name: 'LoginMain'
+  name: 'LoginMain',
+  data(){
+    return{
+      isAgree: true,    // 是否同意隐私条款
+      username: "",
+      password: "",
+    }
+  },
+  computed: {
+    isLight:{
+      get(){
+        if(this.username !== "" && this.password !==""){
+          return true
+        }
+        else
+          return false
+      },
+      set(){}
+    }
+  },
+  methods:{
+    login(){
+      // 向服务器提交表单进行登陆
+    },
+
+    gotoRegister(){
+      this.$router.push('/register')
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
   .login-main {
-    height: 488px;
-    background-image: url('@/assets/images/login-bg.png');
+    height: 658px;
+    background-image: url('@/assets/images/login-bg5.png');
     .wrapper {
       position: relative;
       .box {
         position: absolute;
-        top: 60px;
-        right: 100px;
-        width: 380px;
+        top: 88px;
+        right: 0px;
+        width: 430px;
         padding: 20px 40px;
         background-color: #fff;
         box-shadow: 0 0 25px 0 rgb(3 3 3 / 14%);
@@ -85,31 +109,33 @@ export default {
             }
           }
           .input {
-            margin-top: 17px;
+            margin-top: 35px;
             position: relative;
             line-height: 34px;
             i {
               position: absolute;
               top: 1px;
               left: 1px;
-              width: 34px;
-              height: 34px;
+              width: 50px;
+              height: 50px;
               background-color: #cfcdcd;
               color: #fff;
               text-align: center;
-              font-size: 20px;
+              font-size: 28px;
+              padding-top: 3px;
             }
             input {
               width: 100%;
-              height: 36px;
-              padding: 0 49px;
+              height: 50px;
+              padding: 0 54px;
               border: 1px solid #ccc;
+              font-size: 18px;
             }
           }
           .agree {
-            padding: 17px 0;
+            padding: 28px 0;
             color: #b3b3b3;
-            font-size: 14px;
+            font-size: 16px;
             .xtx-checkbox {
               color: #999;
               cursor: pointer;
@@ -144,11 +170,27 @@ export default {
               text-align: center;
               line-height: 40px;
             }
+            .btn2 {
+              display: block;
+              height: 40px;
+              margin-bottom: 17px;
+              background-color: #17bb9b;
+              color: #fff;
+              text-align: center;
+              line-height: 40px;
+            }
+            
+
             .other {
+              margin-top: 32px;
+              margin-bottom: 32px;
               display: flex;
               justify-content: space-between;
-              font-size: 14px;
+              font-size: 18px;
               align-items: center;
+              a:hover {
+                color: #17bb9b;
+              }
             }
           }
         }

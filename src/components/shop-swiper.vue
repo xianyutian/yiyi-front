@@ -10,7 +10,7 @@
         </RouterLink>
         <!-- **商品列表 -->
         <div v-else class="slider">
-          <a v-for="item in itemList" :key="item.itemId" @click="gotoItem(item)">
+          <a v-for="item in itemList" :key="item.itemId" @click="gotoItem(item)" href="#">
             <img :src="item.url" alt="">
             <p class="name ellipsis">{{item.itemName}}</p>
             <p class="price">&yen;{{item.price}}</p>
