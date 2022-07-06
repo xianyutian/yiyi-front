@@ -13,7 +13,7 @@ const Index = () => import('@/views/Index/Index')
 const routes = [
   {
     path: '/',
-    redirect: '/home'
+    component: Index
   },
   {
     path: '/home',

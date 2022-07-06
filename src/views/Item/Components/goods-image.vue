@@ -44,17 +44,17 @@ export default {
       const position = { x: 0, y: 0 }
       // 计算鼠标x值
       if (elementX.value < 100) position.x = 0
-      else if (elementX.value > 300) position.x = 200
+      else if (elementX.value > 260) position.x = 160
       else position.x = elementX.value - 100
       // 计算鼠标y值
       if (elementY.value < 100) position.y = 0
-      else if (elementY.value > 460) position.y = 360
+      else if (elementY.value > 380) position.y = 280
       else position.y = elementY.value - 100
       // 给样式赋值
       layerPosition.left = position.x + 'px'
       layerPosition.top = position.y + 'px'
       largePosition.backgroundPositionX = -2 * position.x + 'px'
-      largePosition.backgroundPositionY = -2 * position.y + 'px'
+      largePosition.backgroundPositionY = -1.45 * position.y  + 'px'
     })
     return { show, layerPosition, largePosition, currIndex, target }
   }
@@ -63,8 +63,8 @@ export default {
 <style scoped lang="less">
 
 .goods-image {
-  width: 480px;
-  height: 640px;
+  width: 400px;
+  height: 480px;
   position: relative;
   display: flex;
   z-index: 500;
@@ -80,18 +80,16 @@ export default {
     background-color: #f8f8f8;
   }
   .middle {
-    width: 420px;
-    height: 560px;
+    width: 360px;
+    height: 480px;
     background: #ffffff;
     position: relative;
     cursor: move;
     img {
-          
         margin:auto;
         max-width: 100%;
         max-height: 100%;
         // vertical-align: middle;
-        
     }
     .layer {
       width: 200px;

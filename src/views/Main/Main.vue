@@ -108,7 +108,7 @@ export default {
 
 <style lang="less" scoped>
   .popular {
-    padding-bottom: 80px;
+    padding-bottom: 120px;
   }
   .seckill {
     padding: 7px 0 55px 0;

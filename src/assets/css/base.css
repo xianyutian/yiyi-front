@@ -38,8 +38,7 @@ ol {
 }
 
 /* 去除默认的倾斜效果 */
-em,
-i {
+em{
     font-style: normal;
 }
 

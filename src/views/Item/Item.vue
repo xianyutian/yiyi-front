@@ -18,8 +18,8 @@
         <div class="spec">
           <!-- 商品名称 -->
           <GoodsName :goods="item" style="margin-top: 40px"/>
-          <!-- sku组件 -->
-          <!-- <GoodsSku :goods="goods" @change="changeSku" /> -->
+          <!-- 销量组件 -->
+          <GoodsSales />
           <!-- 数量选中组件 -->
           <ShopNumbox v-model="num" :max="item.inventory" label="数量" style="margin-top: 40px"/>
           <!-- 按钮组件 -->
@@ -87,24 +87,27 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.shop-goods-page {
+  background: #f5f5f5;
+}
 .container {
    width: 1240px;
    margin: 0 auto;
    position: relative;
  }
 .goods-info {
-  min-height: 680px;
+  min-height: 580px;
   background: #fff;
   display: flex;
   .media {
-    width: 480px;
-    height: 640px;
-    padding: 30px 50px;
+    width: 360px;
+    height: 480px;
+    padding: 40px 50px;
   }
   .spec {
     flex: 1;
     padding: 30px 30px 30px 0;
-    margin-left: 80px;
+    margin-left: 200px;
   }
 }
 .goods-footer {

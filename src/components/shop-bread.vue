@@ -18,7 +18,7 @@ export default {
       dymanicItems.push(item)
       // 最后一个item不加i标签
       if (i < items.length - 1) {
-        dymanicItems.push(h('i', { class: 'iconfont icon-angle-right' }))
+        dymanicItems.push(h('h5', { class: 'iconfont icon-angle-right' },">"))
       }
     })
     return h('div', { class: 'shop-bread' }, dymanicItems)
@@ -32,7 +32,11 @@ export default {
   display: flex;
   padding: 25px 10px;
   &-item {
-    a {
+    h5 {
+      font-size: 12px;
+      margin-left: 5px;
+      margin-right: 5px;
+      line-height: 22px;
       color: #666;
       transition: all .4s;
       &:hover {

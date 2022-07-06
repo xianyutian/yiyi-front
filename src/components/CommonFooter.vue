@@ -1,6 +1,7 @@
 <template>
   <div class="footer">
-    <div class="contact wrapper clearfix">
+    <div class="contact ">
+      <div class="container">
         <dl>
           <dt>客户服务</dt>
           <dd class="chat">在线客服</dd>
@@ -29,11 +30,12 @@
             <small>周一至周日 8:00-18:00</small>
           </dd>
         </dl>
+      </div>
     </div>
     <div class="extra">
       <div class="wrapper">
         <div class="slogan">
-          <a href="javascript:;" class="price">实惠时尚</a>
+          <a href="javascript:;" class="price">时尚简约</a>
           <a href="javascript:;" class="express">物流快捷</a>
           <a href="javascript:;" class="quality">质量保障</a>
         </div>
@@ -61,9 +63,17 @@ export default {
 
 <style lang="less" scoped>
   .footer {
-    border-top: 1px solid #e4e4e4;
+    padding-top: 20px;
+    background-color: #f5f5f5;
     .contact {
+      background: #fff;
+      .container {
+      width: 1240px;
+      margin: 0 auto;
+      position: relative;
       padding: 60px 0 40px 25px;
+      display: flex;
+      }
       dl {
         float: left;
         height: 190px;
