@@ -18,9 +18,10 @@ export default {
     return {
       // 广告图片，必要的话可以从服务器获取，暂时先固定
       bannerList:[
+        {"itemId": "毛衣-01", "img": require("@/assets/images/advertise/sweather3.jpg")},
         {"itemId": "连衣裙-01", "img": require("@/assets/images/advertise/redDress3.png")},
         {"itemId": "西装-01", "img": require("@/assets/images/advertise/suit3.png")},
-        {"itemId": "毛衣-01", "img": require("@/assets/images/advertise/sweather3.jpg")},
+        
         {"itemId": "衬衣-01", "img": require( "@/assets/images/advertise/advertise3.png")}
       ],
       itemList:[

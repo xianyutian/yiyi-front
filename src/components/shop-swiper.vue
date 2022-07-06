@@ -3,18 +3,18 @@
     <!-- 轮播图图片容器 -->
     <ul class="swiper-body">
       <!-- 所有图片都在一个位置，如果要显示，则加上fade类名，让opacity为1 -->
-      <li class="swiper-item" :class="{ fade: index === i }" v-for="(item, i) in sliders" :key="i">
+      <li class="swiper-item" :class="{ fade: index === i }" v-for="(itemList, i) in sliders" :key="i">
         <!-- **图片 -->
-        <RouterLink to="/" v-if="item.imgUrl">
-          <img :src="item.imgUrl" alt="">
+        <RouterLink to="/" v-if="itemList.url">
+          <img :src="itemList.url" alt="">
         </RouterLink>
         <!-- **商品列表 -->
         <div v-else class="slider">
-          <RouterLink v-for="goods in item" :key="goods.id" :to="`/product/${goods.id}`">
-            <img :src="goods.picture" alt="">
-            <p class="name ellipsis">{{goods.name}}</p>
-            <p class="price">&yen;{{goods.price}}</p>
-          </RouterLink>
+          <a v-for="item in itemList" :key="item.itemId" @click="gotoItem(item)">
+            <img :src="item.url" alt="">
+            <p class="name ellipsis">{{item.itemName}}</p>
+            <p class="price">&yen;{{item.price}}</p>
+          </a>
         </div>
       </li>
     </ul>
@@ -27,7 +27,7 @@
     <div class="swiper-indicator">
       <!-- 指示器 active为激活 -->
       <!-- 3.点击索引点可以切换对应图片 @click="index = i" -->
-      <span @click="index = i" :class="{ active: index === i }" v-for="(item, i) in sliders" :key="i"></span>
+      <span @click="index = i" :class="{ active: index === i }" v-for="(itemList, i) in sliders" :key="i"></span>
     </div>
   </div>
 </template>
@@ -108,6 +108,13 @@ export default {
       clearInterval(timer)
     })
     return { index, stop, start, toggle }
+  },
+  methods:{
+    gotoItem(item){
+      window.sessionStorage.setItem("item", JSON.stringify(item))
+      this.$router.push('/home/item/'+ item.itemId)
+      window.location.reload()
+    }
   }
 }
 </script>
@@ -200,8 +207,8 @@ export default {
     text-align: center;
     img {
       padding: 20px;
-      width: 230px!important;
-      height: 230px!important;
+      width: 210px!important;
+      height: 280px!important;
     }
     .name {
       font-size: 16px;
@@ -214,5 +221,20 @@ export default {
       margin-top: 15px;
     }
   }
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-angle-right:before {
+  content: ">";
+}
+
+.icon-angle-left:before {
+  content: "<";
 }
 </style>

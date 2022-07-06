@@ -17,9 +17,9 @@ export default {
     button{
         min-width: 160px;
         padding: 0 14px;
-        background-color: #373535b9;
-        color: #eff5f4;
-        font-size: 30px;
+        background-color: #98f0a5b9;
+        color: #ffdac3;
+        font-size: 40px;
         box-sizing: border-box;
         display: inline-block;
         border: none;

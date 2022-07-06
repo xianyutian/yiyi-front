@@ -1,5 +1,7 @@
 <template>
-   <h1>这是分类后的商品展示页面</h1>
+   <div class="container">
+    
+   </div>
 </template>
 
 <script>
@@ -9,5 +11,9 @@ export default {
 </script>
 
 <style>
-
+  .container{
+    width: 1240px;
+    margin: 0 auto;
+    position: relative;
+  }
 </style>

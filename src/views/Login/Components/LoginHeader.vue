@@ -1,8 +1,8 @@
 <template>
   <div class="login-header wrapper">
     <h1></h1>
-    <router-link to="/">
-      进入网站首页
+    <router-link to="/home">
+      返回网站主页
       <i class="iconfont icon-angleright"></i>
       <i class="iconfont icon-angleright"></i>
     </router-link>

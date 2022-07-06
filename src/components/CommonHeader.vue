@@ -2,7 +2,7 @@
   <div class="header-container wrapper">
     <router-link to="/home"><h1></h1></router-link>
     <div class="nav">
-      <router-link v-for="category in categoryList" :key="category" :to="`/category/${category}`">
+      <router-link v-for="category in categoryList" :key="category" :to="`/home/category/${category}`">
           {{category}}
       </router-link> 
     </div>

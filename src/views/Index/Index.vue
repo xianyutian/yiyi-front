@@ -1,21 +1,9 @@
 <template>
   <div class="header">
-    <!-- 标签页 -->
-    <div class="container">
-      <!-- LOGO -->
-      <span><h1></h1></span>
-        <el-tabs class="nav" v-model="index">
-            <!-- 封面 -->
-            <el-tab-pane label="主页" name="first">
-                <div class="body">
-                    <!-- 标题 -->
-                    <MyTitle style="margin-left:400px; margin-top:200px"></MyTitle>
-                    <!-- 按钮 -->
-                    <IndexButton style="margin-left:900px; margin-top:80px"></IndexButton>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="关于我们" name="second">我们是。。。团队</el-tab-pane>
-        </el-tabs>
+    <!-- 图片 -->
+    <div class="body">
+      <!-- 按钮 -->
+      <IndexButton class="button"/>
     </div>
   </div>
   
@@ -23,11 +11,10 @@
 
 <script>
 import IndexButton from './Components/IndexButton'
-import MyTitle from './Components/Title'
 
 export default {
     name: "MyIndex",
-    components:{IndexButton, MyTitle}, 
+    components:{IndexButton}, 
     data(){
         return{
             index: "first"
@@ -42,39 +29,19 @@ export default {
 </script>
 
 <style lang="less">
-  .header{
-    height: 100px;
-    display: inline-block;
-    // justify-content: space-between;
-    // align-items: center;
-  }
+.header{
   .body{
-    background: url('@/assets/images/index72.jpg');
-    width: 1900px;
-    height: 1265px;
-  }
-  h1 {
-      width: 180px;
-      height: 100px;
-      background: url('@/assets/images/logo.png') no-repeat 50%;
-      background-size: contain;
-  }
-  .container{
-    .nav {
-      a {
-        margin: 0 20px;
-        padding-bottom: 7px;
-        &:hover {
-          color: #27ba9b;
-          border-bottom: 2px solid #27ba9b;
-        }
-      }
+    background: url('@/assets/images/index85.png');
+    width: 1885px;
+    height: 987px;
+    .button{
+      margin-left: 1220px;
+      margin-top: 730px;
     }
   }
-  .el-tabs__header {
-    margin-left: 300px;
-    width: 200px;
-  }
+}
+  
+  
   
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="goods-sales">
       <p>租赁人气: </p>
-      <p class="sale">{{sale}}</p>
+      <p class="sale">{{sales}}</p>
       <!-- <p><i class="iconfont icon-task-filling"></i>租赁人气</p> -->
   </div>
 </template>
@@ -10,7 +10,7 @@
 export default {
   name: 'GoodsSales',
   props: {
-    sale: {
+    sales: {
       default: 500
     }
   }

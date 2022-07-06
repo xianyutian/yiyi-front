@@ -19,7 +19,7 @@
           <!-- 商品名称 -->
           <GoodsName :goods="item" style="margin-top: 40px"/>
           <!-- 销量组件 -->
-          <GoodsSales :sale="item.sale"/>
+          <GoodsSales :sales="item.sales"/>
           <!-- 数量选中组件 -->
           <ShopNumbox v-model="num" :max="item.inventory" label="数量" style="margin-top: 40px"/>
           <!-- 按钮组件 -->
@@ -27,8 +27,8 @@
           <ShopButton @click="gotoModel()" type="primary" style="margin-left: 120px">查看3D模型</ShopButton>
         </div>
       </div>
-      <!-- 商品推荐
-      <GoodsRelevant /> -->
+      <!-- 商品推荐 -->
+      <GoodsRelevant :categoryId="item.classify"/>
     </div>
   </div>
 </template>
@@ -39,15 +39,17 @@ import GoodsImage from './Components/goods-image'
 import GoodsSales from './Components/goods-sales'
 import GoodsName from './Components/goods-name'
 // import GoodsSku from './Components/goods-sku'
+import GoodsRelevant from './Components/goods-relevant'
 import ShopBread from '@/components/shop-bread'
 import ShopButton from '@/components/shop-button'
 import ShopNumbox from '@/components/shop-numbox'
 import ShopBreadItem from '@/components/shop-bread-item'
+// import FreshPopular from '@/views/Main/Components/FreshPopular'
 
 export default {
   name: 'MyItem',
   components: {GoodsImage, GoodsSales,
-   GoodsName, ShopBread, ShopButton, ShopNumbox, ShopBreadItem},
+   GoodsName, ShopBread, ShopButton, ShopNumbox, ShopBreadItem, GoodsRelevant},
   data(){
     return {
       num: 0,   //当前选择的商品数量
@@ -59,12 +61,19 @@ export default {
         "description": "xxxxxxxxx",
         "url": require("@/assets/images/clothes/news_1.jpg"),
         "inventory": 500,
-        "sale": 30
+        "sales": 30
       },   // 当前要查看的Item对象
 
       // 推荐的商品列表
       recommandItemList:[
-        
+        { url: require('@/assets/images/clothes/news_1.jpg'), itemName: '白色仙女连衣裙', price: 20
+          ,itemId:"1", classify:"", description:"", inventory:500, sales: 800 },
+        { url: require('@/assets/images/clothes/news_2.jpg'), itemName: '魏晋南北朝晋制汉服', price: 39 
+        ,itemId:"2", classify:"", description:"", inventory:500, sales: 700},
+        { url: require('@/assets/images/clothes/news_3.jpg'), itemName: '秋冬新款高领毛衣', price: 20 
+        ,itemId:"3", classify:"", description:"", inventory:500, sales: 600},
+        { url: require('@/assets/images/clothes/news_4.jpg'), itemName: '宴会晚礼服', price: 99 
+        ,itemId:"4", classify:"", description:"", inventory:500, sales:50}
       ]    // 
     }
   },
@@ -131,5 +140,9 @@ export default {
   min-height: 600px;
   background: #fff;
   margin-top: 20px;
+}
+
+.popular {
+    padding-bottom: 120px;
 }
 </style>
