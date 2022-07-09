@@ -2,7 +2,8 @@
   <div class="shortcuts">
     <div class="wrapper">
       <router-link to="/login" v-if='isNotSigned'>请先登录</router-link>|
-      <router-link to="/account" v-if='!isNotSigned'>个人中心</router-link>|
+      <router-link to="/account" >个人中心</router-link>|
+      <!-- 个人中心暂时先设成一直显示 -->
       <router-link to="/register">免费注册</router-link>|
       <router-link to="/login">我的订单</router-link>|
       <router-link to="/profile">我的收藏</router-link>|

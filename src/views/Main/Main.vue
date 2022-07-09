@@ -40,6 +40,7 @@
       </fresh-popular>
     </div>
     
+    
   </div>
 </template>
 
@@ -47,6 +48,7 @@
 import Banner from '@/views/Main/Components/Banner.vue'
 import MainTitle from '@/views/Main/Components/MainTitle.vue'
 import FreshPopular from '@/views/Main/Components/FreshPopular.vue'
+
 export default {
   name: 'MyMain',
   components: {
@@ -56,17 +58,6 @@ export default {
   },
   data () {
     return {
-      // "连衣裙", "半身裙", "衬衫", "卫衣", "毛衣", "休闲裤", "牛仔裤", "外套", "运动套装"
-      // categoryList:[
-      //   {
-      //     "categoryName":"", 
-      //     "itemList":[
-      //       {"itemId": "", "classify": "", "itemName": "", "price": 250, "description": "", "url": "", "inventory": 500},
-      //       {"itemId": "", "classify": "", "itemName": "", "price": 250, "description": "", "url": "", "inventory": 500},
-      //       {"itemId": "", "classify": "", "itemName": "", "price": 250, "description": "", "url": "", "inventory": 500}
-      //   ]}
-      // ],
-
       // 新上架商品，可以从服务器获取
       news: [
         { url: require('@/assets/images/clothes/news_1.jpg'), itemName: '白色仙女连衣裙', price: 20
@@ -106,24 +97,9 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .popular {
     padding-bottom: 120px;
   }
-  .seckill {
-    padding: 7px 0 55px 0;
-    background-color: #f5f5f5;
-  }
-  .brand {
-    padding-bottom: 32px;
-  }
-  .fresh,
-  .cloth,
-  .kitchen,
-  .living {
-    background-color: #f5f5f5;
-  }
-  .discuss {
-    margin-bottom: 80px;
-  }
+  
 </style>

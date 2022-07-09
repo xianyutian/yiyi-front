@@ -1,7 +1,7 @@
 <template>
   <div class="cart-none">
     <img src="@/assets/images/none.png" alt="" />
-    <p>购物车内暂时没有商品</p>
+    <p>收藏夹内暂时没有商品！继续去逛一逛挑选心仪的商品吧</p>
     <div class="btn">
       <ShopButton type="primary" @click="$router.push('/home')">继续逛逛</ShopButton>
     </div>
@@ -11,8 +11,8 @@
 <script>
 import ShopButton from '@/components/shop-button'
 export default {
-  name: 'CartNone',
-  components:{ShopButton}
+  name: 'ProfileNone',
+  components:{ShopButton},
 }
 </script>
 

@@ -2,7 +2,7 @@
   <div class="goods-relevant">
     <div class="header">
       <i class="icon" />
-      <span class="title">同类商品推荐</span>
+      <span class="title">{{msg}}</span>
     </div>
     <!-- 此处使用改造后的shop-carousel.vue -->
     <ShopSwiper :sliders="sliders" />
@@ -11,6 +11,7 @@
 
 <script>
 import { ref } from 'vue'
+import { toRefs } from 'vue'
 import ShopSwiper from '@/components/shop-swiper'
 export default {
   // 同类推荐，猜你喜欢
@@ -21,13 +22,25 @@ export default {
       type: String,
       default: ''
     },
+    msg:{
+      type: String,
+      default: '同类商品推荐'
+    },
+    authorization:{     // 如果是功能是猜你喜欢，则需要传用户的token
+      type: String,
+      default: ''
+    }
     
   },
   setup (props) {
     // 最终需要的数据是传sliders给轮播图组件
     const sliders = ref([])
+    
+    const {msg} = toRefs(props)
+    const {categoryId} = toRefs(props)
+    const {authorization} = toRefs(props)
+    
     // data需要从服务器获取
-
     const data = [
         { url: require('@/assets/images/clothes/news_1.jpg'), itemName: '白色仙女连衣裙', price: 20
           ,itemId:"1", classify:"", description:"", inventory:500, sales: 800 },

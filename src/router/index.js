@@ -9,6 +9,8 @@ const Cart = () => import('@/views/Cart/Cart')
 const Profile = () => import('@/views/Profile/Profile')
 const Category = () => import('@/views/Category/Category')
 const Index = () => import('@/views/Index/Index')
+const History = () => import('@/views/History/History')
+const Account = () => import('@/views/Account/Account')
 
 const routes = [
   {
@@ -24,7 +26,7 @@ const routes = [
       { path: '/home/category/:categoryId', component: Category},
       { path: '/profile', component: Profile},
       { path: '/cart', component: Cart},
-      
+      { path: '/history', component: History}
     ]
   },
   {
@@ -34,6 +36,10 @@ const routes = [
   {
     path: '/register',
     component: Register
+  },
+  {
+    path: '/account',
+    component: Account
   },
   
 ]

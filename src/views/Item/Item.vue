@@ -24,7 +24,7 @@
           <ShopNumbox v-model="num" :max="item.inventory" label="数量" style="margin-top: 40px"/>
           <!-- 按钮组件 -->
           <ShopButton @click="addToCart()" type="primary" style="margin-top: 50px;margin-left:10px">加入购物车</ShopButton>
-          <ShopButton @click="gotoModel()" type="primary" style="margin-left: 120px">查看3D模型</ShopButton>
+          <ShopButton @click="addToProfile()" type="primary" style="margin-left: 120px">添加到收藏夹</ShopButton>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -85,7 +85,7 @@ export default {
     addToCart(){
       // 添加到购物车
     },
-    gotoModel(){
+    addToProfile(){
 
     }
   },

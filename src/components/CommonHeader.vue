@@ -13,9 +13,14 @@
         <span></span>
       </div>
       <div class="cart">
-        <router-link class="curr" to="/cart">
-          <i class="iconfont icon-cart"></i><em>5</em>
-        </router-link>
+        <a class="curr" @click="gotoCart()" href="javascript:;">
+          <i class="iconfont icon-cart"></i><em>{{cartNum}}</em>
+        </a>
+      </div>
+      <div class="history">
+        <a href="javascript:;" @click="gotoHistory()">
+          <img src="@/assets/images/history4.jpg">
+        </a>
       </div>
     </div>
   </div>
@@ -29,7 +34,27 @@ export default {
       // 商品的所有类别，可以从数据库获取，若无特别需求则直接确定不改动
       categoryList: [
         "连衣裙", "半身裙", "衬衫", "卫衣", "毛衣", "休闲裤", "牛仔裤", "外套", "运动套装"
-      ]     
+      ],
+      isLogin: true,   // 是否登陆
+      cartNum: 2,      // 购物车的总数量 
+    }
+  },
+  methods:{
+    gotoHistory(){
+      if(this.isLogin)
+          this.$router.push('/history')
+      else{
+        alert("请先登陆！")
+        this.$router.push('/login')
+      }
+    },
+    gotoCart(){
+      if(this.isLogin)
+          this.$router.push('/cart')
+      else{
+        alert("请先登陆！")
+        this.$router.push('/login')
+      }
     }
   }
 }
@@ -163,6 +188,9 @@ export default {
             }
           }
         }
+      }
+      .history{
+        margin-left: 5px;
       }
     }
   }

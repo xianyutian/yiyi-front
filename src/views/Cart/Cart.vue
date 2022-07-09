@@ -12,7 +12,7 @@
       <el-table-column align="center" label="商品信息" width="300">
         <template v-slot="scope">
           <div class="goods">
-            <router-link :to="`/item/${scope.row.item.itemId}`"><img :src="scope.row.item.url" alt=""></router-link>
+            <a @click="gotoItem(scope.row.item)" href="javascript:;"><img :src="scope.row.item.url" alt=""></a>
             <div>
               <p class="name ellipsis">{{scope.row.item.itemName}}</p>
             </div>
@@ -26,8 +26,6 @@
       </el-table-column>
       <el-table-column align="center" label="数量" width="180" class="tc">
         <template v-slot="scope">
-          <!-- <span style="margin-left: 10px">{{ scope.row.item.quantity }}</span> -->
-          <!-- <el-input-number size="mini" v-model="scope.row.item.quantity" @change="handleChange(scope.row, scope.row.item.quantity)" :min="0"></el-input-number> -->
           <el-input-number  size="mini" v-model="scope.row.num" @change="handleChange(scope.row)" @blur="handleChange(scope.row)" :min="1" :precision="0"></el-input-number>
         </template>
       </el-table-column>
@@ -92,7 +90,6 @@
 </template>
 <script>
 import CartNone from './Components/cart-none'
-import CartSku from './Components/cart-sku'
 import ShopBread from '@/components/shop-bread'
 import ShopButton from '@/components/shop-button'
 import ShopNumbox from '@/components/shop-numbox'
@@ -100,18 +97,18 @@ import ShopBreadItem from '@/components/shop-bread-item'
 
 export default {
   name: 'MyCart',
-  components: { CartNone, CartSku,ShopBread, ShopButton, ShopNumbox, ShopBreadItem },
+  components: { CartNone,ShopBread, ShopButton, ShopNumbox, ShopBreadItem },
   data(){
     return{
       cartItemList:[
         {
           "item":{ url: require('@/assets/images/clothes/news_1.jpg'), itemName: '白色仙女连衣裙', price: 20
-          ,itemId:"1", classify:"", description:"", inventory:500 },
+          ,itemId:"1", classify:"", description:"", inventory:500, sales:  800},
           "num": 2,
         },
         {
           "item": { url: require('@/assets/images/clothes/news_2.jpg'), itemName: '魏晋南北朝晋制汉服', price: 39 
-          ,itemId:"2", classify:"", description:"", inventory:500},
+          ,itemId:"2", classify:"", description:"", inventory:500, sales: 400},
           "num": 3,
         }
       ],
@@ -160,6 +157,11 @@ export default {
     // 将商品全部选中
     selectAll(){
 
+    },
+
+    gotoItem(item){
+      window.sessionStorage.setItem("item", JSON.stringify(item))
+      this.$router.push("/home/item/" + item.itemId)
     }
   },
   
