@@ -24,6 +24,9 @@ export default {
         gotoMain(){
             this.$router.push('/home')
         }
+    },
+    created(){
+      window.sessionStorage.setItem("isLocal", true)
     }
 }
 </script>

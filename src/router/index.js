@@ -10,7 +10,11 @@ const Profile = () => import('@/views/Profile/Profile')
 const Category = () => import('@/views/Category/Category')
 const Index = () => import('@/views/Index/Index')
 const History = () => import('@/views/History/History')
-const Account = () => import('@/views/Account/Account')
+const MyAccount = () => import('@/views/Account/MyAccount')
+const LineOrder = () => import('@/views/Order/LineOrder')
+const OrderDetail = () => import('@/views/Order/OrderDetail')
+const NewOrder = () => import('@/views/Order/NewOrder')
+const MyModel = () => import('@/views/Model/Model')
 
 const routes = [
   {
@@ -26,7 +30,10 @@ const routes = [
       { path: '/home/category/:categoryId', component: Category},
       { path: '/profile', component: Profile},
       { path: '/cart', component: Cart},
-      { path: '/history', component: History}
+      { path: '/history', component: History},
+      { path: '/lineOrder', component: LineOrder},
+      { path: '/order/:orderId', component: OrderDetail},
+      { path: '/newOrder', component: NewOrder},
     ]
   },
   {
@@ -39,7 +46,11 @@ const routes = [
   },
   {
     path: '/account',
-    component: Account
+    component: MyAccount
+  },
+  {
+    path: '/model',
+    component: MyModel
   },
   
 ]

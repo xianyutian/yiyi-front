@@ -28,7 +28,7 @@
     </div>
 
     <!-- 推荐 -->
-    <div class="popular wrapper">
+    <div class="popular wrapper" v-if="recommand.length !== 0">
       <main-title>
         <template #h2>猜你喜欢</template>
         <template #span>个性推荐 精品推荐</template>
@@ -48,6 +48,8 @@
 import Banner from '@/views/Main/Components/Banner.vue'
 import MainTitle from '@/views/Main/Components/MainTitle.vue'
 import FreshPopular from '@/views/Main/Components/FreshPopular.vue'
+import {getHotItems, getRecommendItems} from '@/api/items'
+
 
 export default {
   name: 'MyMain',
@@ -92,6 +94,27 @@ export default {
         ,itemId:"12", classify:"", description:"", inventory:500, sales:200}
       ]
       
+    }
+  },
+  created(){
+    let isLocal = window.sessionStorage.getItem("isLocal")
+    let uid = window.sessionStorage.getItem("uid")
+    if(!isLocal){
+      // 从服务器获取数据 
+      // 获取热销商品
+      getHotItems().then(data => {
+        if(data.code === 200)
+          this.popular = data.data.slice(0, 4)
+      })
+      // 获取推荐商品
+      if(uid !== null && uid !== ""){
+        getRecommendItems(uid).then(data => {
+          if(data.code === 200)
+            this.recommand = data.data.slice(0, 4)
+        })
+      }
+
+      // 新出商品 随便做两个假的了
     }
   }
 }

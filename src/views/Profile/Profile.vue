@@ -8,7 +8,7 @@
         <ShopBreadItem>收藏夹</ShopBreadItem>
     </ShopBread>
     <!-- 商品卡片 -->
-    <ProfileCard :item="item" v-for="item in profileList" :key="item.itemId" class="panel"/>
+    <ProfileCard :item="item" v-for="item in profileList" :key="item.itemId" class="panel" @deleteItem="deleteItem(item)"/>
     
     <!-- 猜你喜欢 -->
     <GoodsRelevant msg="猜你喜欢" :authorization="authorization"/>
@@ -22,6 +22,7 @@ import ShopBread from '@/components/shop-bread'
 import ShopBreadItem from '@/components/shop-bread-item'
 import ProfileCard from './Components/profile-card'
 import GoodsRelevant from '@/views/Item/Components/goods-relevant'
+import {getProfiles} from '@/api/users.js'
 
 export default {
     name: "MyProfile",
@@ -39,6 +40,20 @@ export default {
           { url: require('@/assets/images/clothes/news_4.jpg'), itemName: '宴会晚礼服', price: 99 
           ,itemId:"4", classify:"", description:"", inventory:500, sales:50}
         ]
+      }
+    },
+    methods:{
+      deleteItem(item){
+        this.profileList.splice(this.profileList.indexOf(item), 1)
+      }
+    },
+    created(){
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      if(!isLocal){
+        getProfiles().then(data => {
+        if(data.code === 200)
+          this.profileList = data.data
+      })
       }
     }
 }

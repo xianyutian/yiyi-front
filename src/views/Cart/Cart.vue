@@ -9,7 +9,7 @@
     <el-table class="table" :data="cartItemList" ref="multipleTable" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="70">
       </el-table-column>
-      <el-table-column align="center" label="商品信息" width="300">
+      <el-table-column align="center" label="商品信息" width="280px">
         <template v-slot="scope">
           <div class="goods">
             <a @click="gotoItem(scope.row.item)" href="javascript:;"><img :src="scope.row.item.url" alt=""></a>
@@ -19,26 +19,31 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="单价" width="220" class="tc">
+      <el-table-column align="center" label="单价" width="150px" class="tc">
         <template v-slot="scope">
           <span style="margin-left: 10px">{{ scope.row.item.price }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="数量" width="180" class="tc">
+      <el-table-column align="center" label="数量" width="195" class="tc">
         <template v-slot="scope">
           <el-input-number  size="mini" v-model="scope.row.num" @change="handleChange(scope.row)" @blur="handleChange(scope.row)" :min="1" :precision="0"></el-input-number>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="小计" width="180" class="tc">
+      <el-table-column align="center" label="天数" width="195" class="tc">
+        <template v-slot="scope">
+          <el-input-number  size="mini" v-model="scope.row.days" @change="handleChange(scope.row)" @blur="handleChange(scope.row)" :min="1" :precision="0"></el-input-number>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="小计" width="150" class="tc">
         <template v-slot="scope">
           <span style="margin-left: 10px">{{ scope.row.item.price * scope.row.num }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" width="140" class="tc">
         <template v-slot="scope">
-          <p><a @click="addToProfile(scope.row)">添加至收藏夹</a></p>
+          <p><a @click="addToProfile(scope.row)" href="javascript:;">添加至收藏夹</a></p>
           <p><a @click="handleDelete(scope.row)" class="red" href="javascript:;">删除</a></p>
-          <p><a href="javascript:;">找相似</a></p>
+          <p><router-link  :to="`/home/category/${scope.row.item.classify}`">找相似</router-link></p>
         </template>
       </el-table-column>
     </el-table>
@@ -46,15 +51,14 @@
     <!-- 操作栏 -->
     <div class="action">
       <div class="batch">
-        <el-checkbox @change="selectAll()">全选</el-checkbox>
+        <!-- <span class="select"><el-checkbox @change="selectAll()">全选</el-checkbox></span> -->
         <a @click="batchDeleteCart()" href="javascript:;" class="red">删除商品</a>
-        <a href="javascript:;">移入收藏夹</a>
-        <a @click="batchDeleteCart(true)" href="javascript:;">清空失效商品</a>
+        <a href="javascript:;" @click="batchAddProfile()"> 移入收藏夹</a>
       </div>
       <div class="total">
         共 {{cartItemList.length}} 件商品，已选择 {{multipleSelection.length}} 件，商品合计：
         <span class="red">¥{{subtotal}}</span>
-        <ShopButton type="primary">下单结算</ShopButton>
+        <ShopButton type="primary" @click="newOrder()">下单结算</ShopButton>
       </div>
         <!-- 猜你喜欢 -->
         <!-- <GoodRelevant /> -->
@@ -94,6 +98,8 @@ import ShopBread from '@/components/shop-bread'
 import ShopButton from '@/components/shop-button'
 import ShopNumbox from '@/components/shop-numbox'
 import ShopBreadItem from '@/components/shop-bread-item'
+import { deleteCart, updateCart } from '@/api/business'
+import { addProfile } from '@/api/users'
 
 export default {
   name: 'MyCart',
@@ -103,18 +109,16 @@ export default {
       cartItemList:[
         {
           "item":{ url: require('@/assets/images/clothes/news_1.jpg'), itemName: '白色仙女连衣裙', price: 20
-          ,itemId:"1", classify:"", description:"", inventory:500, sales:  800},
-          "num": 2,
+          ,itemId:"1", classify:"连衣裙", description:"", inventory:500, sales:  800},
+          "num": 2, "days": 4
         },
         {
           "item": { url: require('@/assets/images/clothes/news_2.jpg'), itemName: '魏晋南北朝晋制汉服', price: 39 
           ,itemId:"2", classify:"", description:"", inventory:500, sales: 400},
-          "num": 3,
+          "num": 3, "days": 4
         }
       ],
-      invalidCartItemList:[
-
-      ],
+      
       multipleSelection:[],   // 当前选中的购物车的几项
     }
   },
@@ -135,13 +139,28 @@ export default {
   methods:{
     // 修改商品数量
     handleChange(row) {
-      console.log(row.item.itemId)
-      console.log(row.num)
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      if(!isLocal){
+        updateCart(row.item.itemId, row.num. row.days).then(data => {
+          if(data.code !== 200)
+            alert(data.msg)
+        })
+      }
     },
 
     // 删除商品
     handleDelete(row) {
-
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      var con = confirm("确认将商品从购物车移除吗？")
+      if(con){
+        this.cartItemList.splice(this.cartItemList.indexOf(row), 1)
+        if(!isLocal){
+          deleteCart(row.item.itemId).then(data => {
+            if(data.code !== 200)
+              alert(data.msg)
+          })
+        }
+      }
     },
 
     handleSelectionChange(selection) {
@@ -151,17 +170,67 @@ export default {
 
     // 将选中的商品添加到收藏夹
     addToProfile(row){
-
-    },
-
-    // 将商品全部选中
-    selectAll(){
-
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      if(isLocal)
+        alert("添加成功！")
+      else{
+        let uid = window.sessionStorage.getItem("uid")
+        if(uid !== null && uid !== ""){
+          addProfile(uid, row.item.itemId).then(data => {
+          if(data.code === 200)
+            alert("添加成功")
+          else
+            alert(data.msg)
+          })
+        } else{
+          alert("请先登陆！")
+        }
+      }
     },
 
     gotoItem(item){
       window.sessionStorage.setItem("item", JSON.stringify(item))
       this.$router.push("/home/item/" + item.itemId)
+    },
+    newOrder(){
+      let order = {}
+      order.itemList = this.multipleSelection
+      order.address = "江西省长沙市岳麓区"
+      order.timestamp = this.getDate()
+      window.sessionStorage.setItem("newOrder", JSON.stringify(order))
+      this.$router.push("/newOrder")
+    },
+
+    batchDeleteCart(){
+      var con = confirm("请问确认将选中的全部删除吗？")
+      if (con){
+        for(let i=0; i<this.multipleSelection.length; i++){
+          this.handleDelete(this.multipleSelection[i])
+        }
+      }
+    },
+
+    getDate(){
+      var date = new Date();
+      var year = date.getFullYear(); //月份从0~11，所以加一
+      var dateArr = [date.getMonth() + 1,date.getDate(),date.getHours(),date.getMinutes(),date.getSeconds()];
+      for(var i=0;i<dateArr.length;i++){
+        if (dateArr[i] >= 1 && dateArr[i] <= 9) { 
+            dateArr[i] = "0" + dateArr[i];
+        }
+      }
+      //var strDate = year+'-'+dateArr[0]+'-'+dateArr[1]+' '+dateArr[2]+':'+dateArr[3]+':'+dateArr[4];
+      var strDate = year+dateArr[0]+dateArr[1]    // 20220710的格式
+      return strDate
+    },
+
+    batchAddProfile(){
+      var con = confirm("确认将选中的商品都添加到收藏夹吗？")
+      if(con) {
+        for(let i=0; i<this.multipleSelection.length; i++){
+          this.addToProfile(this.multipleSelection[i])
+        }
+      }
     }
   },
   
@@ -215,13 +284,16 @@ export default {
   align-items: center;
   font-size: 16px;
   justify-content: space-between;
-  padding: 0 30px;
+  padding: 0 0px;
   .shop-checkbox {
     color: #999;
   }
   .batch {
+    .select{
+      margin-left: 15px;
+    }
     a {
-      margin-left: 20px;
+      margin-left: 85px;
     }
   }
   .red {

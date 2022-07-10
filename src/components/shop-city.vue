@@ -18,7 +18,7 @@
 <script>
 import { onClickOutside } from '@vueuse/core'
 import { computed, reactive, ref } from 'vue'
-import axios from 'axios'
+import City from '@/assets/area.json'
 export default {
   name: 'ShopCity',
   props: {
@@ -62,10 +62,11 @@ export default {
     const open = () => {
       visible.value = true
       // 获取省市区数据
-      getCityData().then(data => {
-        allCityData.value = data
-        loading.value = false
-      })
+      // getCityData().then(data => {
+      //   allCityData.value = data
+      //   loading.value = false
+      // })
+      allCityData.value = getCityData()
       // 清空之前的城市选择
       for (const key in changeLocation) {
         changeLocation[key] = ''
@@ -113,20 +114,21 @@ const getCityData = () => {
   // 1.当本地没有缓存，发送请求获取数据 异步操作
   // 2.当本地有缓存，取出本地数据 同步操作
   // 返回promise，在then中获取数据
-  return new Promise((resolve, reject) => {
-    // 数据存在window的cityData上
-    if (window.cityData) {
-      // 如果本地有缓存，返回缓存的数据
-      resolve(window.cityData)
-    } else {
-      const url = 'https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/area.json'
-      axios.get(url).then(res => {
-        console.log(res.data);
-        window.cityData = res.data
-        resolve(res.data);
-      })
-    }
-  })
+  // return new Promise((resolve, reject) => {
+  //   // 数据存在window的cityData上
+  //   if (window.cityData) {
+  //     // 如果本地有缓存，返回缓存的数据
+  //     resolve(window.cityData)
+  //   } else {
+  //     const url = 'https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/area.json'
+  //     axios.get(url).then(res => {
+  //       console.log(res.data);
+  //       window.cityData = res.data
+  //       resolve(res.data);
+  //     })
+  //   }
+  // })
+  return City.currentType
 }
 </script>
 

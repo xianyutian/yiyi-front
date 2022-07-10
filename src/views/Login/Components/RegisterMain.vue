@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import {register} from '@/api/users.js'
+import {checkUsernameExist} from '@/api/users.js'
 export default {
   name: 'RegisterMain',
   data(){
@@ -74,7 +76,8 @@ export default {
   computed: {
     isLight:{
       get(){
-        if(this.username !== "" && this.password !=="" && this.repeatPassword !== ""){
+        if(this.username !== "" && this.password !=="" && this.repeatPassword !== "" 
+        && !this.showUsernameExist && this.showUsernameNotExist && this.password === this.repeatPassword){
           return true
         }
         else
@@ -86,10 +89,26 @@ export default {
   methods:{
     register(){
       // 向服务器提交表单进行注册
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      if(isLocal){
+        alert("注册成功！祝您使用愉快！")
+        this.$router.push('/login')
+      } else {
+        register(this.username, this.password).then(data => {
+          if(data.code === 200){
+            alert("注册成功！祝您使用愉快！")
+            this.$router.push('/login')
+          }
+          else
+            alert(data.msg)
+        })
+      }
     },
 
     // TODO 异步请求判断用户名是否已经注册 现在先随便写个逻辑
     checkUserName(){
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      if(isLocal){
         if(this.username === ""){
             this.showUsernameNotNull = true
             this.showUsernameExist = false
@@ -99,6 +118,25 @@ export default {
             this.showUsernameExist = ! this.showUsernameExist;
             this.showUsernameNotExist = ! this.showUsernameExist;
         }
+      } else{
+        if(this.username === ""){
+            this.showUsernameNotNull = true
+            this.showUsernameExist = false
+            this.showUsernameNotExist = false
+        } else{
+          checkUsernameExist(this.username).then(data => {
+            if(data.code === 200){
+              this.showUsernameNotExist = true
+              this.showUsernameExist = false
+              this.showUsernameNotNull = false
+            } else{
+              this.showUsernameNotExist = false
+              this.showUsernameExist = true
+              this.showUsernameNotNull = false
+            }
+          })
+        }
+      }
     },
     checkPassword(){
         if (this.password !== "" && this.repeatPassword !== ""){

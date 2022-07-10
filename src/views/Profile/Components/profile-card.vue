@@ -19,13 +19,14 @@
     <i>￥{{item.price}}</i>
     </div>
     <div class="operation">
-        <p><a @click="removeProfile(item.itemId)" class="red">移除</a></p>
+        <p><a @click="removeProfile(item.itemId)" class="red" href="javascript:;">移除</a></p>
         <p><a @click="findRelavant()" class="green" href="javascript:;" >找相似</a></p>
     </div>
   </div>
 </template>
 
 <script>
+import {deleteProfile} from '@/api/users.js'
 export default {
     name: "ProfileCard",
     props:["item"],
@@ -33,6 +34,29 @@ export default {
         gotoItem(item){
             window.sessionStorage.setItem("item", JSON.stringify(item))
             this.$router.push('/home/item/'+ item.itemId)
+        },
+        removeProfile(itemId){
+            var con = confirm("确认移除吗？")
+            if (con) {
+                let isLocal = window.sessionStorage.getItem("isLocal")
+                if(isLocal){
+                    // 从数组中删除
+                    alert("移除成功！")
+                    this.$emit("deleteItem", this.item)
+                } else{
+                    let uid = window.sessionStorage.getItem("uid")
+                    if(uid !== null && uid !== ""){
+                        deleteProfile(uid, this.item.itemId).then(data => {
+                            if(data.code === 200)
+                              alert("移除成功！")
+                            else
+                              alert(data.msg)
+                        })
+                        this.$emit("deleteItem", this.item)
+                    }
+                }
+            }
+            
         }
     }
 }

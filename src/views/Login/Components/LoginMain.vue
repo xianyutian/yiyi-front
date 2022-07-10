@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import login from '@/api/auth.js'
 export default {
   name: 'LoginMain',
   data(){
@@ -62,6 +63,31 @@ export default {
   methods:{
     login(){
       // 向服务器提交表单进行登陆
+      if(!this.isAgree){
+        alert("请先同意隐私条款！")
+      } else {
+        let isLocal = window.sessionStorage.getItem("isLocal")
+        if(isLocal){
+          // 将一个假的放进去，相当于直接登陆
+          let uid = "12345678"
+          let token = "abcabcddd"
+          window.sessionStorage.setItem("uid", uid)
+          window.sessionStorage.setItem("token", token)
+          alert("登陆成功！")
+          this.$router.push('/home')
+        } else{
+          getHotItems(this.username, this.password).then(data => {
+            if(data.code === 200){
+              alert("登陆成功！")
+              window.sessionStorage.setItem("uid", data.data.uid)
+              window.sessionStorage.setItem("token", data.data.token)
+              this.$router.push('/home')
+            } else{
+              alert(data.msg)
+            }
+          })
+        }
+      }   // 同意隐私条款
     },
 
     gotoRegister(){

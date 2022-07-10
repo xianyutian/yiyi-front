@@ -25,6 +25,7 @@
 import ItemCard from '@/components/ItemCard'
 import ShopBread from '@/components/shop-bread'
 import ShopBreadItem from '@/components/shop-bread-item'
+import {getItemsByClassify} from '@/api/items.js'
 
 export default {
     name: "MyCategory",
@@ -58,8 +59,14 @@ export default {
         this.categoryId = this.$route.params.categoryId
         console.log(this.categoryId)
         // 从服务器获取所有Category下的商品
+        let isLocal = window.sessionStorage.getItem("isLocal")
+        if(!isLocal){
+          getItemsByClassify(this.categoryId).then(data => {
+            if(data.code === 200)
+              this.itemList = data.data
+          })
+        }
         
-
         // 分组
         let groupsNum = Math.floor(this.itemList.length / 4)
         for(let i=0; i<groupsNum; i++){
@@ -72,8 +79,6 @@ export default {
     },
     created(){
       this.getData()
-      console.log(this.groups)
-      console.log(this.remains)
     }
 }
 </script>

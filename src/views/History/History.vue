@@ -46,7 +46,7 @@
 import ItemCard from '@/components/ItemCard'
 import ShopBread from '@/components/shop-bread'
 import ShopBreadItem from '@/components/shop-bread-item'
-
+import {getHistories} from '@/api/users.js'
 
 export default {
     name: "MyHistory",
@@ -80,7 +80,15 @@ export default {
     },
     methods:{
         getData(){
-            // todo historyList从服务器获取
+            //  historyList从服务器获取
+            let isLocal = window.sessionStorage.getItem("isLocal")
+            let uid = window.sessionStorage.getItem("uid")
+            if(!isLocal && uid){
+                getHistories().then(data => {
+                    if(data.code === 200)
+                    this.historyList = data.data
+                })
+            } 
             this.historyListChange = this.historyList
             this.getListsByHistoryChange()
         },

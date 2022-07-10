@@ -21,9 +21,13 @@
           <!-- 销量组件 -->
           <GoodsSales :sales="item.sales"/>
           <!-- 数量选中组件 -->
-          <ShopNumbox v-model="num" :max="item.inventory" label="数量" style="margin-top: 40px"/>
+          <div>
+            <ShopNumbox v-model="num" :max="item.inventory" label="数量" style="float: left;margin-top: 30px; width: 300px"/>
+            <ShopNumbox v-model="days" max="180" label="天数" style="float:left; margin-top: 30px; width: 250px"/>
+          </div>
+          
           <!-- 按钮组件 -->
-          <ShopButton @click="addToCart()" type="primary" style="margin-top: 50px;margin-left:10px">加入购物车</ShopButton>
+          <ShopButton @click="addToCart()" type="primary" style="margin-top: 30px;margin-left:10px;">加入购物车</ShopButton>
           <ShopButton @click="addToProfile()" type="primary" style="margin-left: 120px">添加到收藏夹</ShopButton>
         </div>
       </div>
@@ -44,7 +48,9 @@ import ShopBread from '@/components/shop-bread'
 import ShopButton from '@/components/shop-button'
 import ShopNumbox from '@/components/shop-numbox'
 import ShopBreadItem from '@/components/shop-bread-item'
-// import FreshPopular from '@/views/Main/Components/FreshPopular'
+import { addProfile } from '@/api/users'
+import {getItemById, getItemsByClassify, getRecommendItems} from '@/api/items.js'
+import {addCart} from '@/api/business.js'
 
 export default {
   name: 'MyItem',
@@ -53,6 +59,7 @@ export default {
   data(){
     return {
       num: 0,   //当前选择的商品数量
+      days: 0,   // 当前选择的租赁天数
       item: {
         "itemId": "xxxx",
         "classify": "连衣裙",
@@ -80,13 +87,70 @@ export default {
   methods:{
     getData(){
       // 加载Item数据
-      this.item = JSON.parse(window.sessionStorage.getItem("item")) 
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      if(isLocal)
+        this.item = JSON.parse(window.sessionStorage.getItem("item"))
+      else{
+        // 根据ID获取item
+        let itemId = this.$route.params.itemId
+        getItemById(itemId).then(data => {
+          if(data.code === 200)
+            this.item = data.data
+        })
+
+        // 获取推荐列表
+        let uid = window.sessionStorage.getItem("uid")
+        if(uid !== null && uid !== ""){
+          getRecommendItems(uid).then(data => {
+            if(data.code === 200)
+              this.recommandItemLis = data.data
+          })
+        } else{
+          getItemsByClassify(this.item.itemId).then(data => {
+            if(data.code === 200)
+              this.recommandItemLis = data.data
+          })
+        }
+      }
     },
     addToCart(){
       // 添加到购物车
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      if(!isLocal){
+      // 正式场景
+        let uid = window.sessionStorage.getItem("uid")
+        if(uid !== null && uid !== ""){
+          addCart(this.item.itemId, this.num, this.days).then(data => {
+          if(data.code === 200)
+            alert("添加成功")
+          else
+            alert(data.msg)
+          })
+        } else{
+          alert("请先登陆！")
+        }
+      } else {
+        alert("添加成功")
+      }
     },
     addToProfile(){
-
+      let isLocal = window.sessionStorage.getItem("isLocal")
+      if(!isLocal){
+      // 正式场景
+        let uid = window.sessionStorage.getItem("uid")
+        if(uid !== null && uid !== ""){
+          addProfile(uid, this.item.itemId).then(data => {
+          if(data.code === 200)
+            alert("添加成功")
+          else
+            alert(data.msg)
+          })
+        } else{
+          alert("请先登陆！")
+        }
+      } else {
+        alert("添加成功")
+      }
     }
   },
   created(){
@@ -117,7 +181,7 @@ export default {
   .spec {
     flex: 1;
     padding: 30px 30px 30px 0;
-    margin-left: 200px;
+    margin-left: 140px;
   }
 }
 .goods-footer {

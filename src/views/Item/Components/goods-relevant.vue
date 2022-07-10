@@ -13,6 +13,8 @@
 import { ref } from 'vue'
 import { toRefs } from 'vue'
 import ShopSwiper from '@/components/shop-swiper'
+import {getItemsByClassify} from '@/api/items.js'
+import {getRecommendItems} from '@/api/items.js'
 export default {
   // 同类推荐，猜你喜欢
   name: 'GoodsRelevant',
@@ -26,10 +28,6 @@ export default {
       type: String,
       default: '同类商品推荐'
     },
-    authorization:{     // 如果是功能是猜你喜欢，则需要传用户的token
-      type: String,
-      default: ''
-    }
     
   },
   setup (props) {
@@ -38,7 +36,6 @@ export default {
     
     const {msg} = toRefs(props)
     const {categoryId} = toRefs(props)
-    const {authorization} = toRefs(props)
     
     // data需要从服务器获取
     const data = [
@@ -58,7 +55,26 @@ export default {
         ,itemId:"7", classify:"", description:"", inventory:500, sales:50},
         { url: require('@/assets/images/clothes/popular_4.jpg'), itemName: '夏季薄款小清新连衣裙', price: 30 
         ,itemId:"8", classify:"", description:"", inventory:500, sales:40}
-      ]
+    ]
+
+    let isLocal = window.sessionStorage.getItem("isLocal")
+    if(!isLocal){
+      if(msg === "同类商品推荐"){
+        // 根据category获取items
+        getItemsByClassify(categoryId).then(data => {
+          if(data.code === 200)
+            this.data = data.data
+        })
+      } else{
+        // 根据用户uid获得推荐商品 标题是猜你喜欢
+        let uid = window.sessionStorage.getItem("uid")
+        if(uid !== null && uid !== "")
+        getRecommendItems().then(data => {
+          if(data.code === 200)
+            this.data = data.data
+        })
+      }
+    }
 
     const pageSize = 4
     const pageTotal = Math.ceil(data.length / pageSize)

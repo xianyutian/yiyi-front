@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import {getAllCategories} from '@/api/items.js'
+import {getCarts} from '@/api/business.js'
 export default {
   name: 'CommonHeader',
   data(){
@@ -36,7 +38,7 @@ export default {
         "连衣裙", "半身裙", "衬衫", "卫衣", "毛衣", "休闲裤", "牛仔裤", "外套", "运动套装"
       ],
       isLogin: true,   // 是否登陆
-      cartNum: 2,      // 购物车的总数量 
+      cartNum: 0,      // 购物车的总数量 
     }
   },
   methods:{
@@ -55,6 +57,28 @@ export default {
         alert("请先登陆！")
         this.$router.push('/login')
       }
+    }
+  },
+  created(){
+    let isLocal = window.sessionStorage.getItem("isLocal")
+    let token = window.sessionStorage.getItem("token")
+    let uid = window.sessionStorage.getItem("uid")
+    if( uid !== null && uid !== ""){
+      this.isLogin = true
+    } else{
+      this.isLogin = false
+    }
+    if(!isLocal){
+      // 获取所有大类，目前先截取前9个
+      getAllCategories().then(data => {
+          this.categoryList = data.data.slice(0, 9)
+      })
+
+      // 获取该用户的购物车数量
+      getCarts().then(data => {
+        if(data.code === 200)
+          this.cartNum = data.data.length
+      })
     }
   }
 }
